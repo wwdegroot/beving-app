@@ -1,40 +1,28 @@
 pub mod services;
 pub mod conversion;
-use crate::services::knmidata::{InducedBevingen, InducedBevingenGeoJson, init_knmi_bevingen};
+pub mod api;
 use axum::{
     error_handling::HandleErrorLayer,
     routing::get,
     http::StatusCode,
     Router,
-    extract::State,
-    Json,
-    response::IntoResponse,
 };
 use tower::{BoxError, ServiceBuilder};
 use tower_http::trace::TraceLayer;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
-
-use tokio::sync::{Mutex, MutexGuard};
+use tokio::sync::{Mutex};
 use std::{
     time::Duration,
     sync::Arc, net::SocketAddr
 };
 
+use crate::services::knmidata::{InducedBevingen, InducedBevingenGeoJson, init_knmi_bevingen};
+use crate::api::induced::{induced_bevingen, induced_bevingen_geojson};
+
 #[derive(Clone)]
-struct AppState {
+pub struct AppState {
     induced: Arc<Mutex<InducedBevingen>>,
     induced_geojson: Arc<Mutex<InducedBevingenGeoJson>>
-}
-
-
-async fn induced_bevingen(State(state): State<AppState>) -> impl IntoResponse {
-    let data: MutexGuard<InducedBevingen> = state.induced.lock().await;
-    Json(data.clone())
-}
-
-async fn induced_bevingen_geojson(State(state): State<AppState>) -> impl IntoResponse {
-    let data: MutexGuard<InducedBevingenGeoJson> = state.induced_geojson.lock().await;
-    Json(data.clone())
 }
 
 
