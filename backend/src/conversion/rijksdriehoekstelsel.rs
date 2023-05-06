@@ -1,3 +1,4 @@
+// Source: https://github.com/arnobroekhof/rd2wgs84
 // Constants
 const X0: f64 = 155000.0;
 const Y0: f64 = 463000.0;

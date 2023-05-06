@@ -17,7 +17,7 @@ use std::{
 };
 
 use crate::services::knmidata::{InducedBevingen, InducedBevingenGeoJson, init_knmi_bevingen};
-use crate::api::induced::{induced_bevingen, induced_bevingen_geojson};
+use crate::api::induced::{induced_bevingen, induced_bevingen_geojson, induced_bevingen_geojson_query};
 
 #[derive(Clone)]
 pub struct AppState {
@@ -47,6 +47,7 @@ async fn main() {
     let app = Router::new()
         .route("/api/induced", get(induced_bevingen))
         .route("/api/induced/geojson", get(induced_bevingen_geojson))
+        .route("/api/induced/geojson/query", get(induced_bevingen_geojson_query))
         // Add middleware to all routes
         .layer(
             ServiceBuilder::new()
@@ -69,7 +70,7 @@ async fn main() {
     // host en poort vanuit config bestand
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
 
-    tracing::debug!("listening on {}", addr);
+    tracing::info!("listening on {}", &addr);
 
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
