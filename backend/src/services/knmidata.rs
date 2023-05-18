@@ -1,7 +1,7 @@
 use serde::{de, Serialize, Deserialize, Deserializer};
 use serde_json::Value;
 use reqwest;
-use chrono::{NaiveDateTime, Utc};
+use chrono::{NaiveDateTime};
 use crate::conversion::rijksdriehoekstelsel::WGS84Coordinate;
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -62,6 +62,53 @@ pub struct InducedProperties {
     pub mag: f64,
     pub place: String,
     pub time: String,
+    // datetime string als combinatie van date en time velden
+    #[serde(with = "custom_date_format")]
+    pub datetime: NaiveDateTime,
+}
+
+/// Serde datestring formatter
+mod custom_date_format {
+    use chrono::{DateTime, Utc, TimeZone, NaiveDateTime};
+    use serde::{self, Deserialize, Serializer, Deserializer};
+    use crate::services::knmidata::parse_date_string;
+
+    const FORMAT: &'static str = "%Y-%m-%d %H:%M:%S";
+
+    // The signature of a serialize_with function must follow the pattern:
+    //
+    //    fn serialize<S>(&T, S) -> Result<S::Ok, S::Error>
+    //    where
+    //        S: Serializer
+    //
+    // although it may also be generic over the input types T.
+    pub fn serialize<S>(
+        date: &NaiveDateTime,
+        serializer: S,
+    ) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let s = format!("{}", date.format(FORMAT));
+        serializer.serialize_str(&s)
+    }
+
+    // The signature of a deserialize_with function must follow the pattern:
+    //
+    //    fn deserialize<'de, D>(D) -> Result<T, D::Error>
+    //    where
+    //        D: Deserializer<'de>
+    //
+    // although it may also be generic over the output types T.
+    pub fn deserialize<'de, D>(
+        deserializer: D,
+    ) -> Result<NaiveDateTime, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        Ok(parse_date_string(&s))
+    }
 }
 
 /// Geojson Feature
@@ -85,12 +132,13 @@ impl From<InducedBeving> for InducedBevingGeoJson {
             format!("{} {}", &induced_beving.date, &induced_beving.time).as_str()
         );
         let props = InducedProperties{
-            date: induced_beving.date,
+            date: induced_beving.date.clone(),
             depth: induced_beving.depth,
             evaluation_mode: induced_beving.evaluation_mode,
             mag: induced_beving.mag,
             place: induced_beving.place,
-            time: induced_beving.time,
+            time: induced_beving.time.clone(),
+            datetime: parse_date_string(format!("{} {}", induced_beving.date, induced_beving.time).as_str())
         };
 
         InducedBevingGeoJson{

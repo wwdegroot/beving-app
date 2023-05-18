@@ -8,7 +8,9 @@ use axum::{
     Router,
 };
 use tower::{BoxError, ServiceBuilder};
+use axum::http::{Method};
 use tower_http::trace::TraceLayer;
+use tower_http::cors::{Any, CorsLayer};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use tokio::sync::{Mutex};
 use std::{
@@ -35,6 +37,11 @@ async fn main() {
         )
         .with(tracing_subscriber::fmt::layer())
         .init();
+
+    // cors middleware
+    let cors = CorsLayer::new()
+        .allow_methods([Method::GET])
+        .allow_origin(Any);
 
     let induced_bevingen_data = init_knmi_bevingen()
         .await
@@ -63,6 +70,7 @@ async fn main() {
                 }))
                 .timeout(Duration::from_secs(10))
                 .layer(TraceLayer::new_for_http())
+                .layer(cors)
                 .into_inner(),
         )
         .with_state(state);

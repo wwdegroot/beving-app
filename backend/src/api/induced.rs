@@ -4,7 +4,7 @@ use axum::{
     response::IntoResponse,
     Json
 };
-use chrono::{Utc, TimeZone, NaiveDateTime, NaiveDate, NaiveTime};
+use chrono::{NaiveDateTime, NaiveDate, NaiveTime};
 use serde::Deserialize;
 use tokio::sync::{MutexGuard};
 use crate::AppState;
