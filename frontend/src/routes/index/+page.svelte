@@ -6,6 +6,8 @@
 	import OpenlayersMap from '$lib/components/OpenlayersMap.svelte';
     import Map from 'ol/Map';
     import View from 'ol/View';
+    import { defaults as defaultControls} from 'ol/control/defaults';
+	import GeojsonSource from '$lib/components/layers/GeojsonSource.svelte';
 
     let mapheight: number;
     let constant: number = 5;
@@ -35,6 +37,7 @@
         });
 
         map = new Map({
+            controls: defaultControls({zoom: false}),
             layers: baselayers,
             view: view,
         
@@ -51,5 +54,6 @@
 {#if mounted}
 
     <OpenlayersMap map={map} height={mapheight}>
+        <GeojsonSource></GeojsonSource>
     </OpenlayersMap>
 {/if}

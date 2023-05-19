@@ -16,6 +16,9 @@ dependencies:
   flowbite-svelte:
     specifier: ^0.34.9
     version: 0.34.9(@popperjs/core@2.11.7)(classnames@2.3.2)(flowbite@1.6.5)(svelte@3.58.0)
+  nouislider:
+    specifier: ^15.7.0
+    version: 15.7.0
   ol:
     specifier: ^7.3.0
     version: 7.3.0
@@ -1665,6 +1668,10 @@ packages:
     resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /nouislider@15.7.0:
+    resolution: {integrity: sha512-aJVEULBPOUwq32/s7xnLNyLvo4kuzYJJsNp2PNGW932AQ0uuDAbLShAqswtxRzJc5n/dLJXNlYSLOZ57bcUg1w==}
+    dev: false
 
   /object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}

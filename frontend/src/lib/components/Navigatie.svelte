@@ -7,7 +7,7 @@
 <Navbar let:hidden let:toggle color='indigo'>
     <NavBrand href="/index">
       <Aardbeving color='choco'/>
-      <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+      <span class="self-center whitespace-nowrap text-lg font-semibold dark:text-white sm:text-xl">
         Aardbevingen in Nederland
       </span>
     </NavBrand>
@@ -26,5 +26,4 @@
     </NavUl>
   </Navbar>
 </div>
-  
   
