@@ -39,14 +39,11 @@ pub async fn induced_bevingen_geojson_query(State(state): State<AppState>, query
     let de = NaiveDate::from_ymd_opt(query_params.end_year, 12, 31).unwrap();
     let te = NaiveTime::from_hms_opt(23,59,59).unwrap();
     let end_year = NaiveDateTime::new(de, te);
-    //let start_year = Utc.with_ymd_and_hms(query_params.start_year, 1, 1, 0, 0, 0);
-    //let end_year = Utc.with_ymd_and_hms(query_params.end_year, 12, 31, 23, 59, 59);
-    for f in data.features {
-        if (f.datetime >= start_year) && (f.datetime <= end_year) {
-            query_data.features.push(f);
-        } 
 
-    }
-
+    query_data.features = data.features
+        .into_iter()
+        .filter(|f| f.datetime >= start_year && f.datetime <= end_year)
+        .collect();
+    
     Json(query_data)
 }   
