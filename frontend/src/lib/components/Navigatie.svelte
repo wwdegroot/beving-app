@@ -3,7 +3,7 @@
     import Aardbeving from '$lib/icons/Aardbeving.svelte';
 </script>
 
-<div class="calc-height">
+<div class="calc-height m-h-12">
 <Navbar let:hidden let:toggle color='indigo'>
     <NavBrand href="/index">
       <Aardbeving color='choco'/>
@@ -14,12 +14,12 @@
     <NavHamburger on:click={toggle} />
     <NavUl {hidden}>
       <NavLi href="/data">
-        <span class="text-xl text-gray dark:text-white">
+        <span class="text-md md:text-xl text-gray dark:text-white">
           Data
         </span>
       </NavLi>
       <NavLi href="/services">        
-        <span class="text-xl text-gray dark:text-white">
+        <span class="text-md md:text-xl text-gray dark:text-white">
           Services
         </span>
       </NavLi>
