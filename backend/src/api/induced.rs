@@ -6,7 +6,7 @@ use axum::{
 };
 use chrono::{NaiveDateTime, NaiveDate, NaiveTime};
 use serde::Deserialize;
-use tokio::sync::{MutexGuard};
+use std::sync::Arc;
 use crate::AppState;
 use crate::services::knmidata::{InducedBevingenGeoJson, InducedBevingen};
 
@@ -16,18 +16,18 @@ pub struct QueryParams {
     pub end_year: i32,
 }
 
-pub async fn induced_bevingen(State(state): State<AppState>) -> impl IntoResponse {
-    let data: MutexGuard<InducedBevingen> = state.induced.lock().await;
-    Json(data.clone())
+pub async fn induced_bevingen(State(state): State<Arc<AppState>>) -> impl IntoResponse {
+    let data: InducedBevingen = state.induced.read().clone();
+    Json(data)
 }
 
-pub async fn induced_bevingen_geojson(State(state): State<AppState>) -> impl IntoResponse {
-    let data: MutexGuard<InducedBevingenGeoJson> = state.induced_geojson.lock().await;
-    Json(data.clone())
+pub async fn induced_bevingen_geojson(State(state): State<Arc<AppState>>) -> impl IntoResponse {
+    let data: InducedBevingenGeoJson = state.induced_geojson.read().clone();
+    Json(data)
 }
 
-pub async fn induced_bevingen_geojson_query(State(state): State<AppState>, query_params: Query<QueryParams>) -> impl IntoResponse {
-    let data = state.induced_geojson.lock().await.clone();
+pub async fn induced_bevingen_geojson_query(State(state): State<Arc<AppState>>, query_params: Query<QueryParams>) -> impl IntoResponse {
+    let data = state.induced_geojson.read().clone();
     let mut query_data: InducedBevingenGeoJson = InducedBevingenGeoJson{
         type_: "FeatureCollection".to_string(),
         features: vec![]

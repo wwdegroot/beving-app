@@ -2,9 +2,9 @@ use serde::{de, Serialize, Deserialize, Deserializer};
 use serde_json::Value;
 use reqwest;
 use chrono::{NaiveDateTime};
-use crate::conversion::rijksdriehoekstelsel::WGS84Coordinate;
+use crate::{conversion::rijksdriehoekstelsel::WGS84Coordinate};
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct InducedBeving {
     pub date: String,
     #[serde(deserialize_with = "de_f64_or_string_as_f64")]
@@ -32,7 +32,7 @@ fn de_f64_or_string_as_f64<'de, D: Deserializer<'de>>(deserializer: D) -> Result
     })
   }
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct InducedBevingen {
     pub events: Vec<InducedBeving>,
 }
@@ -69,7 +69,7 @@ pub struct InducedProperties {
 
 /// Serde datestring formatter
 mod custom_date_format {
-    use chrono::{DateTime, Utc, TimeZone, NaiveDateTime};
+    use chrono::{NaiveDateTime};
     use serde::{self, Deserialize, Serializer, Deserializer};
     use crate::services::knmidata::parse_date_string;
 
@@ -181,6 +181,7 @@ pub async fn init_knmi_bevingen() -> Result<InducedBevingen, reqwest::Error> {
     
     return Ok(data)
 }
+
 
 /// Functie die date time string omzet in chrono NaiveDateTime
 fn parse_date_string(datestring: &str) -> NaiveDateTime {
