@@ -73,8 +73,6 @@
         webglStyle.variables.maxMag = mag_values[1]
         minMag = mag_values[0]
         maxMag = mag_values[1]
-        console.log(((maxMag-minMag)/2)*15)
-        console.log(magColor)
     }
 
     function animate() {
