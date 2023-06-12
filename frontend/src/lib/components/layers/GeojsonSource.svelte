@@ -5,10 +5,9 @@
     import VectorSource from 'ol/source/Vector.js';
     import {mapkey, rdnewprojection} from '$lib/openlayers.js'
     import { onMount, getContext, onDestroy } from 'svelte';
-	import { Point } from 'ol/geom';
 	import Control from 'ol/control/Control';
     import RangeSlider from "svelte-range-slider-pips";
-	import Feature from 'ol/Feature';
+	import type Point from 'ol/geom/Point';
 
     const { getMap } = getContext(mapkey);
     let map: Map = getMap();
@@ -43,8 +42,8 @@
         ],
         symbol: {
             symbolType: 'circle',
-            size: ['interpolate', ['linear'], ['get', 'mag'], 0, 4, 5, 64],
-            color: ['interpolate', ['linear'], ['get', 'mag'], 0, 'yellow', 3, 'darkred'],
+            size: ['interpolate', ['exponential', 2], ['get', 'mag'], 0, 4, 5, 64],
+            color: ['interpolate', ['exponential', 1], ['get', 'mag'], 0, 'yellow', 1, 'orange', 3, 'darkred', 4, 'red'],
             opacity: 0.75,
         },
     };
@@ -54,6 +53,7 @@
         format: new GeoJSON({
                 dataProjection: rdnewprojection,
             }),
+        attributions: " KNMI"
         });
     
     const webglLayer = new WebGLPointsLayer({
@@ -95,6 +95,7 @@
     onDestroy(() => {
         map.removeLayer(webglLayer)
         map.removeControl(jaarSliderControl)
+        map.removeControl(magSliderControl)
     })
 </script>
 
