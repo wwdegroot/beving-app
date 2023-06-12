@@ -118,7 +118,7 @@
     />
 </div>
 
-<div class="mag-slider-parent" style="--range-handle-focus: {magColor}; --range-range: {magColor}" bind:this={magSliderElement}>
+<div class="mag-slider-parent" style="--range-handle-focus: {magColor}; --range-range: {magColor}; --range-range-inactive: {magColor}" bind:this={magSliderElement}>
     <RangeSlider 
         id="color-pips"
         range
