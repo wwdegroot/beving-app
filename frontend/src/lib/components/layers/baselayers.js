@@ -57,7 +57,7 @@ brtPastel.set('id', 'brt-pastel');
 brtPastel.set('layertype', 'base')
 
 const brtWater = new TileLayer({
-    visible: true,
+    visible: false,
     source: new WMTS({
         attributions: "PDOK",
         url: "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0",
@@ -78,7 +78,7 @@ brtWater.set('id', 'brt-water');
 brtWater.set('layertype', 'base')
 
 const brtGrijs = new TileLayer({
-    visible: false,
+    visible: true,
     source: new WMTS({
         attributions: "PDOK",
         url: "https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0",

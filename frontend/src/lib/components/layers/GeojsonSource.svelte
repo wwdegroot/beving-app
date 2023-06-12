@@ -26,6 +26,7 @@
     let maxMag: number = 4.0
     $: mag_values = [minMag, maxMag]
 
+    $: magColor = `hsl(${Math.round(60 - (((maxMag + minMag)/2) * 17))}, 90%, 60%)`;
 
     const webglStyle =  {
         variables: {
@@ -70,6 +71,10 @@
         webglStyle.variables.maxYear = year_values[1]
         webglStyle.variables.minMag = mag_values[0]
         webglStyle.variables.maxMag = mag_values[1]
+        minMag = mag_values[0]
+        maxMag = mag_values[1]
+        console.log(((maxMag-minMag)/2)*15)
+        console.log(magColor)
     }
 
     function animate() {
@@ -115,7 +120,7 @@
     />
 </div>
 
-<div class="mag-slider-parent" bind:this={magSliderElement}>
+<div class="mag-slider-parent" style="--range-handle-focus: {magColor}; --range-range: {magColor}" bind:this={magSliderElement}>
     <RangeSlider 
         id="color-pips"
         range
