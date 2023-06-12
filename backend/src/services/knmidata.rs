@@ -56,6 +56,7 @@ impl From<WGS84Coordinate> for PointRD{
 #[derive(Serialize, Deserialize, Clone)] 
 pub struct InducedProperties {
     pub date: String,
+    pub year: i32,
     pub depth: f64,
     #[serde(rename = "evaluationMode")]
     pub evaluation_mode: String,
@@ -133,6 +134,7 @@ impl From<InducedBeving> for InducedBevingGeoJson {
         );
         let props = InducedProperties{
             date: induced_beving.date.clone(),
+            year: get_year(&induced_beving.date),
             depth: induced_beving.depth,
             evaluation_mode: induced_beving.evaluation_mode,
             mag: induced_beving.mag,
@@ -180,6 +182,14 @@ pub async fn init_knmi_bevingen() -> Result<InducedBevingen, reqwest::Error> {
 
     
     return Ok(data)
+}
+
+/// Functie die jaar uit date string haalt
+fn get_year(datestring: &str) -> i32 {
+    let parts: Vec<&str> = datestring.split('-').collect();
+    let year = parts[0].parse::<i32>().unwrap();
+    return year
+
 }
 
 
