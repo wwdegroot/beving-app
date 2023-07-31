@@ -1,5 +1,6 @@
 <script>
     import { Modal, Button } from 'flowbite-svelte'
+    import Zoekbalk from './zoekbalk/Zoekbalk.svelte';
     import Aardbeving from '$lib/icons/Aardbeving.svelte';
     let defaultModal = false;
 </script>
@@ -14,6 +15,7 @@
           Aardbevingen in Nederland
         </span>
       </a>
+      <Zoekbalk/>
       <button class="bg-blue-100 p-2 rounded-md" on:click={() => defaultModal = true}>
         <span class="text-md md:text-xl md:font-bold text-blue-900 dark:text-white">
           Info
@@ -26,8 +28,8 @@
 <Modal title="Data" bind:open={defaultModal} autoclose outsideclose={true}>
   <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
     De bron van de getoonde data is de 
-    <a class="underline" href="https://www.commissiemijnbouwschade.nl/begrippen/a/aardbeving-geinduceerd">geïnduceerde</a>
-    bevings data uit 
+    <a class="underline" href="https://www.commissiemijnbouwschade.nl/begrippen/a/aardbeving-geinduceerd" target="_blank">geïnduceerde</a>
+    bevings data uit de
     <a class="underline" href="https://www.knmi.nl/kennis-en-datacentrum/dataset/aardbevingscatalogus" target="_blank">aardbevingscatalogus</a>
     van het KNMI.
   </p>
