@@ -18,12 +18,13 @@
     let magSliderElement: HTMLElement;
     let magSliderControl: Control;
 
-    let minYear: number = 2000
+    let minYear: number = 2020
     let maxYear: number = 2025
     $: year_values = [minYear, maxYear]
 
-    let minMag: number = 0.0
+    let minMag: number = 1.0
     let maxMag: number = 4.0
+
     $: mag_values = [minMag, maxMag]
 
     $: magColor = `hsl(${Math.round(60 - (((maxMag + minMag)/2) * 17))}, 90%, 60%)`;
@@ -61,10 +62,6 @@
         source: vectorSource,
         style: webglStyle
     });
-
-    function timestamp(datestring: string) {
-        return new Date(datestring).getTime();
-    }
 
     function refreshMap() {
         webglStyle.variables.minYear = year_values[0]
