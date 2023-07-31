@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { mapstore } from "$lib/stores";
+    import { mapstore, viewstore } from "$lib/stores";
     import { baselayers } from "$lib/components/layers/baselayers";
     import { rdnewprojection } from "$lib/openlayers";
 	import OpenlayersMap from '$lib/components/OpenlayersMap.svelte';
@@ -12,7 +12,6 @@
     let mapheight: number;
     let constant: number = 5;
     let heightCalcClass: string = "calc-height"
-    let map = $mapstore.m;
     let mounted: boolean = false;
 
     let handleMapSize = () => {
@@ -29,17 +28,17 @@
 
     onMount(async () => {
 
-        let view = new View({
-            center: [162660, 515300],
-            zoom: 3,
+        $viewstore = new View({
+            center: [172660, 485300],
+            zoom: 2,
             projection: rdnewprojection,
         
         });
 
-        map = new Map({
+        $mapstore.m = new Map({
             controls: defaultControls({zoom: false}),
             layers: baselayers,
-            view: view,
+            view: $viewstore,
         
         });
         mounted = true;
@@ -53,7 +52,7 @@
 />
 {#if mounted}
 
-    <OpenlayersMap map={map} height={mapheight}>
+    <OpenlayersMap map={$mapstore.m} height={mapheight}>
         <GeojsonSource></GeojsonSource>
     </OpenlayersMap>
 {/if}
