@@ -8,6 +8,7 @@
 	import Control from 'ol/control/Control';
     import RangeSlider from "svelte-range-slider-pips";
 	import type Point from 'ol/geom/Point';
+	import type { StyleLike } from 'ol/style/Style';
 
     const { getMap } = getContext(mapkey);
     let map: Map = getMap();
@@ -29,7 +30,7 @@
 
     $: magColor = `hsl(${Math.round(60 - (((maxMag + minMag)/2) * 17))}, 90%, 60%)`;
 
-    const webglStyle =  {
+    const webglStyle = {
         variables: {
                 minYear: minYear,
                 maxYear: maxYear,
@@ -42,13 +43,12 @@
             ['between', ['get', 'mag'], ['var', 'minMag'], ['var', 'maxMag']]
         
         ],
-        symbol: {
-            symbolType: 'circle',
-            size: ['interpolate', ['exponential', 2], ['get', 'mag'], 0, 4, 5, 64],
-            color: ['interpolate', ['exponential', 1], ['get', 'mag'], 0, 'yellow', 1, 'orange', 3, 'darkred', 4, 'red'],
-            opacity: 0.75,
-        },
-    };
+        "circle-radius": ['interpolate', ['exponential', 2], ['get', 'mag'], 0, 4, 5, 64],
+        "circle-fill-color": ['interpolate', ['exponential', 1], ['get', 'mag'], 0, 'yellow', 1, 'orange', 3, 'darkred', 4, 'red'],
+        "circle-rotate-with-view": false,
+        "circle-displacement": [0, 0],
+        "circle-opacity": 0.75,
+    }
 
     const vectorSource = new VectorSource<Point>({
         url: 'http://localhost:8080/api/induced/geojson',
