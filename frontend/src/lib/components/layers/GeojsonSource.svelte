@@ -8,7 +8,6 @@
 	import Control from 'ol/control/Control';
     import RangeSlider from "svelte-range-slider-pips";
 	import type Point from 'ol/geom/Point';
-	import type { StyleLike } from 'ol/style/Style';
 
     const { getMap } = getContext(mapkey);
     let map: Map = getMap();
@@ -58,10 +57,12 @@
         attributions: " KNMI"
         });
     
+    
     const webglLayer = new WebGLPointsLayer({
         source: vectorSource,
         style: webglStyle
     });
+    webglLayer.set('layer_id', 'induced')
 
     function refreshMap() {
         webglStyle.variables.minYear = year_values[0]

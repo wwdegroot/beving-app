@@ -43,6 +43,7 @@
                         <p>{suggestion.weergavenaam}</p>
                     </button>
                 </div>
+                <hr>
             {/each}
         </div>
     </div>
