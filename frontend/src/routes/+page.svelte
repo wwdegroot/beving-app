@@ -8,6 +8,7 @@
     import View from 'ol/View';
     import { defaults as defaultControls} from 'ol/control/defaults';
 	import GeojsonSource from '$lib/components/layers/GeojsonSource.svelte';
+	import Identify from '$lib/components/identify/Identify.svelte';
 
     let mapheight: number;
     let constant: number = 5;
@@ -54,5 +55,8 @@
 
     <OpenlayersMap map={$mapstore.m} height={mapheight}>
         <GeojsonSource></GeojsonSource>
+        <Identify
+            identifyLayerId="induced"
+        ></Identify>
     </OpenlayersMap>
 {/if}
