@@ -9,7 +9,4 @@ const rdnewprojection = new Projection({
   extent: [-285401.92, 22598.08, 595401.92, 903401.92]
 })
 
-
-const mapkey = Symbol()
-
-export { mapkey, rdnewprojection }
+export { rdnewprojection }
