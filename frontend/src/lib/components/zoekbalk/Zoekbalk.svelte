@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { Search, Button } from 'flowbite-svelte';
+	import { Search } from 'flowbite-svelte';
 	import type { SuggestDoc } from '$lib/apptypes/pdokresponses';
-	import { getViewStore } from '$lib/stores';
+	import { getMapStore } from '$lib/stores';
 	import type { Coordinate } from 'ol/coordinate';
 	import { zoekPdokLocatie, locatieCoordinate } from './pdoklocatieserverapi';
 
-	const view = getViewStore();
+	const map = getMapStore();
 
 	let zoekterm: string;
 	let suggestions: SuggestDoc[] = [];
@@ -13,8 +13,8 @@
 
 	$: if (zoomCoordinaten != undefined) {
 		console.log(`set view center coordinaten ${zoomCoordinaten}`);
-		$view.setCenter(zoomCoordinaten);
-		console.log($view.getCenter());
+		$map.getView().setCenter(zoomCoordinaten);
+		$map.getView().setZoom(6);
 		suggestions = [];
 		zoekterm = '';
 		zoomCoordinaten = undefined;
