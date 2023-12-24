@@ -116,10 +116,13 @@
 	</button>
 {/if}
 
-{#if features}
-	<div class="bg-white rounded-md shadow-lg" bind:this={resultsElement}>
+<div
+	class="absolute bottom-4 left-4 bg-white max-w-lg max-h-60 rounded-md shadow-xl overflow-y-auto"
+	bind:this={resultsElement}
+>
+	{#if features.length > 0}
 		{#each features as feature, i}
-			<IdentifyResult {feature} />
+			<IdentifyResult {feature} index={i} max={features.length} />
 		{/each}
-	</div>
-{/if}
+	{/if}
+</div>
