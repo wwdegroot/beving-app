@@ -1,31 +1,24 @@
 <script lang="ts">
-    import { onMount, setContext } from "svelte";
-    import { mapkey } from "$lib/openlayers";
-    import "ol/ol.css";
-    import type Map from "ol/Map";
-  
-   
-    export let map: Map;
-    export let height: number  = 400;
-    let mapTargetDiv: HTMLElement;
+	import { onMount } from 'svelte';
+	import 'ol/ol.css';
+	import { getMapStore } from '$lib/stores';
 
-    setContext(mapkey, {
-        getMap: () => map
-    });
+	const map = getMapStore();
 
-    onMount(async () => {
-        map.setTarget(mapTargetDiv)
-    })
+	export let height: number = 400;
+	let mapTargetDiv: HTMLElement;
 
-
+	onMount(async () => {
+		$map.setTarget(mapTargetDiv);
+	});
 </script>
 
 <div bind:this={mapTargetDiv} class="map" style=" height: {height}px;">
-    <slot></slot>
+	<slot />
 </div>
 
 <style>
-    .map {
-        width: 100%;
-    }
+	.map {
+		width: 100%;
+	}
 </style>
