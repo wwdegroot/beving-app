@@ -4,7 +4,7 @@
 	import Navigatie from '$lib/components/Navigatie.svelte';
 	import { MAP_CTX } from '$lib/stores';
 	import View from 'ol/View';
-	import { onMount, setContext } from 'svelte';
+	import { setContext } from 'svelte';
 	import { rdnewprojection } from '$lib/openlayers';
 	import { baselayers } from '$lib/components/layers/baselayers';
 	import { defaults as defaultControls } from 'ol/control/defaults';
@@ -24,8 +24,6 @@
 			})
 		)
 	);
-
-	onMount(async () => {});
 </script>
 
 <Navigatie />
